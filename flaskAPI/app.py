@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_session import Session
-from flask.setAPI import *
+from flaskAPI.setAPI import *
 
 app = Flask(__name__)
 api = Api(app)
