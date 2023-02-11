@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api
 from flask_session import Session
 from flaskAPI.setAPI import *
@@ -19,6 +19,12 @@ Session(app)
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(VariableRouting, '/var/<string:id>')
+
+@app.errorhandler(404)
+@app.errorhandler(403)
+@app.errorhandler(400) #invalid テストよになるかm
+def page_not_found(error):
+    return render_template('error.html'), error
 
 if __name__ == '__main__':
     app.run(debug = True)
