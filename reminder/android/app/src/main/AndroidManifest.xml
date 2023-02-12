@@ -3,7 +3,10 @@
    <application
         android:label="reminder"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">
+        <!-- android:requestLegacyExternalStorage="true"
+            はカメラライブラリのために追加。cf: https://qiita.com/konatsu_p/items/eb0e8a7ab62ab9d31315 -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
