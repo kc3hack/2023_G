@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_session import Session
-import init
+from manegeNotice import notion
 from setAPI import *
 
 app = Flask(__name__)
@@ -20,6 +20,8 @@ Session(app)
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(VariableRouting, '/var/<string:id>')
+api.add_resource(userSession, '/user')
+
 
 @app.errorhandler(404)
 @app.errorhandler(403)
