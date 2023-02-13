@@ -12,7 +12,7 @@ Base = declarative_base()
 class notion(Base):
 
     id = Column(Integer, primary_key= True)
-    user_id = Column(Integer)
+    # user_id = Column(Integer)
     notion = Column(String(length=255), nullable = False)
     description = Column(String(length=255))
     created = Column(DATETIME, default=datetime.now(JST))
