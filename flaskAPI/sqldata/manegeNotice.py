@@ -1,4 +1,4 @@
-from init import notion
+from sqldata.init import notion
 from sqldata.checkModel import ModelOperate
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
