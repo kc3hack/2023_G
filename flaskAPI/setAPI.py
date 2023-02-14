@@ -14,7 +14,4 @@ class userSession(Resource):
     def get(self, id):
         return { 'id': id }
 
-# class VariableRouting(Resource):
-#     def get(self, id):
-#         return { 'id': id }
 

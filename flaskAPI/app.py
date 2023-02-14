@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_session import Session
-from manegeNotice import Notion
+from sqldata.manegeNotice import Notion
 from setAPI import *
 
 app = Flask(__name__)
@@ -19,16 +19,15 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 api.add_resource(HelloWorld, '/')
-api.add_resource(VariableRouting, '/var/<string:id>')
-api.add_resource(userSession, '/user')
-api.add_resource(Notion, '/set')
+# api.add_resource(userSession, '/user')
+api.add_resource(Notion, '/notion')
 
 
 @app.errorhandler(404)
 @app.errorhandler(403)
 @app.errorhandler(400) #invalid テストよになるかm
 def page_not_found(error):
-    return  error
+    return  error.code
 
 if __name__ == '__main__':
     app.run(debug = True)
