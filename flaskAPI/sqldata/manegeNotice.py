@@ -41,13 +41,12 @@ class Notion(Resource):
     session.begin()
 
     def get(self):
-        list = session.query(notion).order_by(notion.updateDate).all()
+        list = session.query(notion).order_by(notion.effectiveDate).all()
         response = []
         for task in list:
-            task.iosformat()
             hash = {
                 "content":task.notion,
-                "setDateTime":"jikann",
+                "setDateTime":task.effectiveDate.strftime('%Y-%m-%d %H:%M:%S'),
                 "remindList":[],
                 "channelId":task.id
             }
@@ -67,19 +66,17 @@ class Notion(Resource):
         data.notion = input['content']
         # data.description= input['']
         now = datetime.now(JST)
-        data.updateDate = now + timedelta(minutes=30)
+        data.effectiveDate = datetime.strptime(input['setDateTime'], '%Y-%m-%d %H:%M:%S')
         session.add(instance=data)
         session.commit()
         return { 'message': 'Complete Data settimg' }
 
     def delete(self):
-        raise 'delete is here'
         input = request.json
-        if input["id"].isdigit():
-            taskDel = session.query(notion).filter_by(id=int(input['id']))
-            if not len(taskDel) == 0:
-                session.delete(taskDel[0])
-                return {'message':'complete delete'}
+        taskDel = session.query(notion).filter_by(id=input['id'])
+        if taskDel:
+            session.delete(taskDel)
+            return {'message':'complete delete'}
         return {'message':'cannot be deleted'}
 
     session.close()

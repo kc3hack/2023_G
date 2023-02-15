@@ -16,7 +16,7 @@ class notion(Base):
     notion = Column(String(length=255), nullable = False)
     description = Column(String(length=255))
     created = Column(DATETIME, default=datetime.now(JST))
-    updateDate = Column(DATETIME, default=datetime.now(JST))
+    effectiveDate = Column(DATETIME, default=datetime.now(JST))
     informed = Column(Integer, default=0)
 
     __tablename__ = 'notion'
