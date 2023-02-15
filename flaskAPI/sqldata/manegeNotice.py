@@ -19,12 +19,15 @@ Session = scoped_session(
 )
 session = Session()
 
-data = notion()
-
 class Notion(Resource):
-    session.begin()
 
     def get(self):
+        # 期限切れは削除（一応）
+        taskDel = session.query(notion).filter(notion.effectiveDate<datetime.now(JST))
+        if taskDel:
+            taskDel.delete()
+            session.commit()
+        # 一覧を持ってくる
         list = session.query(notion).order_by(notion.effectiveDate).all()
         response = []
         for task in list:
@@ -47,21 +50,26 @@ class Notion(Resource):
             return {'message':'invalid status'}
         
         # データ入れる
+        data = notion()
         data.notion = input['content']
         # data.description= input['']
         now = datetime.now(JST)
-        data.effectiveDate = datetime.strptime(input['setDateTime'], '%Y-%m-%d %H:%M:%S')
+        try:
+            data.effectiveDate = datetime.strptime(input['setDateTime'], '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            return {'message':'invalid date or time'}
         session.add(instance=data)
         session.commit()
         return { 'message': 'Complete Data settimg' }
 
-    def delete(self):
-        input = request.json
-        taskDel = session.query(notion).filter_by(id=input['id'])
-        if taskDel:
+class EditNotion(Resource):
+
+    def delete(self, id):
+        taskDel = session.query(notion).filter_by(id=id)
+        if len(taskDel.all()) == 0:
+            return {'message':'none data'}
+        else:
             taskDel.delete()
             session.commit()
             return {'message':'complete delete'}
-        return {'message':'cannot be deleted'}
-
-    session.close()
+    

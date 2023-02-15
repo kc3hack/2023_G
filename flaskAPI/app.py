@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_session import Session
-from sqldata.manegeNotice import Notion
+from sqldata.manegeNotice import Notion, EditNotion
 from setAPI import *
 
 app = Flask(__name__)
@@ -16,8 +16,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 api.add_resource(HelloWorld, '/')#接続テスト用のやつ
-# api.add_resource(userSession, '/user')
 api.add_resource(Notion, '/notion')
+api.add_resource(EditNotion, '/notion/<int:id>')
 
 
 @app.errorhandler(404)
