@@ -7,11 +7,6 @@ class ModelOperate():
             return False
         return input
 
-
-    def codeJson():
-
-        return jsonfile
-
     def updateTime(task_id):
         if task_id is None:
             return 'a'

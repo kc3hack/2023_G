@@ -19,22 +19,6 @@ Session = scoped_session(
 )
 session = Session()
 
-# 試験的にデータを追加します
-
-# test = notion()
-# # test.user_id = 1
-# test.notion = 'apple'
-# test.description= 'tabetainaaa'
-# now = datetime.now(JST)
-# test.updateDate = now + timedelta(minutes=30)
-# session.add(instance=test)
-# session.commit()
-def json_serial(obj):
-
-    if isinstance(obj, (datetime)):
-        return obj.isoformat()
-    raise TypeError (f'Type {obj} not serializable')
-
 data = notion()
 
 class Notion(Resource):
@@ -75,7 +59,8 @@ class Notion(Resource):
         input = request.json
         taskDel = session.query(notion).filter_by(id=input['id'])
         if taskDel:
-            session.delete(taskDel)
+            taskDel.delete()
+            session.commit()
             return {'message':'complete delete'}
         return {'message':'cannot be deleted'}
 
