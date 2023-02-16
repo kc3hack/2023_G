@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/reminder/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/reminder/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/reminder/build" />
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/build" />
+      <excludeFolder url="file://$MODULE_DIR$/puv.dev/flutter_local_notifications-13.0.0/.pub" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
