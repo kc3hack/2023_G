@@ -145,14 +145,14 @@ class LocalNotifications {
         iOS: DarwinNotificationDetails(),
       );
       // 通知送信予約設定
-      /*await flutterLocalNotificationsPlugin!.zonedSchedule(
+      await flutterLocalNotificationsPlugin!.zonedSchedule(
           1, title, body, scheduledDate, notificationDetails,
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);*/
+              UILocalNotificationDateInterpretation.absoluteTime);
       // 通知送信
-      await flutterLocalNotificationsPlugin!
-          .show(0, title, body, notificationDetails, payload: 'item x');
+      /*await flutterLocalNotificationsPlugin!
+          .show(0, title, body, notificationDetails, payload: 'item x');*/
       return true;
     } catch (e) {
       print(e.toString());
