@@ -38,7 +38,7 @@ class Notion(Resource):
                 "channelId":task.id
             }
             response.append(hash)
-        response = json.dump(response)
+        # response = json.dump(response)
         return response
 
     def post(self):
