@@ -14,15 +14,18 @@ class NotificationData {
       required this.description,
       required this.channelID});
 
-  String toJsonString() {
-    Map<String, dynamic> map = {
+  Map<String, String> toMap() {
+    return {
       "setDateTime": setDateTime.toString(),
       "limitDateTime": limitDateTime.toString(),
-      "title": title,
+      "content": title,
       "description": description,
-      "channelID": channelID
+      "channelID": channelID.toString(),
     };
-    return jsonEncode(map);
+  }
+
+  String toJsonString() {
+    return jsonEncode(toMap());
   }
 
   static NotificationData fromJsonString(String jstr) {
@@ -32,7 +35,6 @@ class NotificationData {
         limitDateTime: DateTime.parse(json["limitDateTime"].toString()),
         title: json["title"] as String,
         description: json["description"] as String,
-        //remindList: rl,
         channelID: json["channelID"] as int);
   }
 }
