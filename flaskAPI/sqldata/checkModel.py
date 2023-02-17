@@ -1,3 +1,4 @@
+# Bodyのモデルをチェックする
 from flask import jsonify
 
 class ModelOperate():
