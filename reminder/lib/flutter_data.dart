@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -59,10 +60,11 @@ class NotificationData {
   }
 
   Future<String> saveIntoDatabase() async {
-    debugPrint("■" + toJsonString());
     var response =
         await http.post(notionUri, headers: notionHeader, body: toJsonString());
-    debugPrint('StatusCode:${response.statusCode.toString()}');
+    debugPrint(
+        '■saveIntoDatabase StatusCode:${response.statusCode.toString()}');
+    debugPrint("savedata:" + toJsonString());
     if (response.statusCode == 500) return '';
     return response.body;
   }
@@ -73,16 +75,21 @@ class NotificationData {
   }
 }
 
+Schedule schedule = Schedule();
+
 class Schedule {
   List<NotificationData> list = [];
 
   Future<void> getFromDatabase() async {
     var response = await http.get(notionUri, headers: notionHeader);
-    debugPrint('StatusCode:${response.statusCode.toString()}');
+    debugPrint('■getFromDatabase StatusCode:${response.statusCode.toString()}');
     if (response.statusCode != 200) return;
+    debugPrint(response.body);
+    if (response.body.length < 10) return;
     String short = response.body.substring(7, response.body.length - 4);
     List<String> jlist =
         short.split(RegExp(r'},\s+{')).map((e) => '{$e}').toList();
+    debugPrint(jlist.toString());
     list = jlist.map((e) => NotificationData.fromJsonString(e)).toList();
     print();
   }
@@ -91,6 +98,17 @@ class Schedule {
     debugPrint('Schelude print');
     debugPrint(list.map((e) => e.toJsonString()).toList().toString());
   }
+}
+
+//画像送信部分（仮）
+Future<void> postImage(File imageFile) async {
+  String base64Image = base64Encode(imageFile.readAsBytesSync());
+  String jsonBody = jsonEncode({"image": base64Image});
+  final response =
+      await http.post(Uri.parse("http://127.0.0.1:5000/ocr"), body: jsonBody);
+  debugPrint('■postImage StatusCode:' + response.statusCode.toString());
+  if (response.statusCode != 200) return;
+  debugPrint(response.body);
 }
 
 //以下テスト用

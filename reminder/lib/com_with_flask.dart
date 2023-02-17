@@ -29,7 +29,6 @@ class _ComTestPageState extends State<ComTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    Schedule schedule = Schedule();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
