@@ -20,7 +20,7 @@ Session = scoped_session(
 session = Session()
 
 class Notion(Resource):
-
+# 通知を表示する
     def get(self):
         # 期限切れは削除（一応）
         taskDel = session.query(notion).filter(notion.effectiveDate<datetime.now(JST))
@@ -33,14 +33,15 @@ class Notion(Resource):
         for task in list:
             hash = {
                 "content":task.notion,
-                "setDateTime":task.effectiveDate.strftime('%Y-%m-%d %H:%M:%S'),
-                "remindList":[],
+                "description":task.description,
+                "createDateTime":task.created.strftime('%Y-%m-%d %H:%M:%S'),
+                "limitDateTime":task.effectiveDate.strftime('%Y-%m-%d %H:%M:%S'),
                 "channelId":task.id
             }
             response.append(hash)
         # response = json.dump(response)
         return response
-
+# 通知を追加する
     def post(self):
         # なんらでデータ受け取ります
         input = request.json
@@ -52,7 +53,7 @@ class Notion(Resource):
         # データ入れる
         data = notion()
         data.notion = input['content']
-        # data.description= input['']
+        # data.description= input['description']
         now = datetime.now(JST)
         try:
             data.effectiveDate = datetime.strptime(input['setDateTime'], '%Y-%m-%d %H:%M:%S')
@@ -60,10 +61,11 @@ class Notion(Resource):
             return {'message':'invalid date or time'}
         session.add(instance=data)
         session.commit()
-        return { 'message': 'Complete Data settimg' }
+        return { 'message': 'Complete Data settimg',
+            'id':data.id}
 
 class EditNotion(Resource):
-
+# 通知を削除する
     def delete(self, id):
         taskDel = session.query(notion).filter_by(id=id)
         if len(taskDel.all()) == 0:
@@ -73,3 +75,22 @@ class EditNotion(Resource):
             session.commit()
             return {'message':'complete delete'}
     
+
+class ReceiveBase64(Resource):
+# OCR用の画像データ取得をする
+    def post(self):
+        # どんな感じで来るかわからんからとりあえずJson形式で受け取る？
+        base64data = request.json
+
+        response ={}#仮置き
+        """ここにOCRの操作が来る
+        読み取ったデータは以下の形になる
+        response = {
+            'contet':'',
+            'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        """
+
+        return response
+
+

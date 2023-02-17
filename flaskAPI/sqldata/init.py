@@ -1,3 +1,4 @@
+# データベース（テーブルも）作成するだけ
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DATETIME
