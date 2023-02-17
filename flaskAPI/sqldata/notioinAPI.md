@@ -1,4 +1,4 @@
-## Notion API
+# Notion API
 kc3hack2023においてチームGの作成物であり，**本イベント用の使用に限って**開発している．
 
 ### ざっくりと説明
@@ -22,3 +22,26 @@ kc3hack2023においてチームGの作成物であり，**本イベント用の
 | 通知の削除 |
 
 ホスト/パスー> <p>"http://localhost/5000/notion/{id}"</p>
+
+* `ReceiveBase64`クラス<br>
+     * post :OCRに使う画像データの受け取りをします．responseは通知内容と読み取った日時をJson形式で返す．詳しくは<a href=https://hackmd.io/2KeBMmdaR-iXKwfRKKuCbQ>本持さんのまとめたやつ</a><br>
+     
+| POST |
+| --- |
+| OCR読み取り |
+
+ホスト/パスー> <p>"http://localhost/5000/notion/ocr"</p>
+
+
+### テーブル設計について
+今回は一個だけのテーブルnotionを実装している（init.py）
+`notion`
+
+| カラム名 | 制約・備考 | 型 |
+| - | - | - |
+| id | primary key | integer |
+| notion | 通知タイトル | string |
+| description | 通知詳細 | string |
+| created | 通知の作成日時（default UTC+9:00） | datetime |
+| effectiveDate | 通知の期限日時 （default UTC+9:00） | datetime |
+| informed | （今は使われていない） | integer |    
