@@ -20,8 +20,8 @@ class _ComTestPageState extends State<ComTestPage> {
   String infoText = '';
 
   var n = NotificationData(
-      setDateTime: DateTime.now(),
-      //  limitDateTime: DateTime.now().add(const Duration(days: 10)),
+      createDateTime: DateTime.now(),
+      limitDateTime: DateTime.now().add(const Duration(days: 10)),
       content: "test",
       // description: "desc",
       remindList: [DateTime(2023, 2, 15), DateTime(2023, 2, 22)],

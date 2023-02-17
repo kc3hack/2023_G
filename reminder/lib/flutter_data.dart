@@ -8,16 +8,16 @@ final notionUri = Uri.parse('http://127.0.0.1:5000/notion');
 final notionHeader = {'content-type': 'application/json'};
 
 class NotificationData {
-  late DateTime setDateTime; //設定した日時
-  //late DateTime limitDateTime; //期限
+  late DateTime createDateTime; //作成した日時
+  late DateTime limitDateTime; //期限
   late String content; //通知のタイトル
   //late String description; //詳細
   late int channelId; //通知チャンネルID
   late List<DateTime> remindList;
 
   NotificationData(
-      {required this.setDateTime,
-      //required this.limitDateTime,
+      {required this.createDateTime,
+      required this.limitDateTime,
       required this.content,
       required this.remindList,
       //required this.description,
@@ -33,8 +33,8 @@ class NotificationData {
 
   Map<String, dynamic> toMap() {
     return {
-      "setDateTime": dateTimeToString(setDateTime),
-      //"limitDateTime": limitDateTime.toString(),
+      "setDateTime": dateTimeToString(createDateTime),
+      "limitDateTime": dateTimeToString(limitDateTime),
       "content": content,
       "remindList": remindList.map((e) => dateTimeToString(e)).toList(),
       //"description": description,
@@ -51,8 +51,9 @@ class NotificationData {
     List<dynamic> sl = json["remindList"];
     List<DateTime> dl = sl.map((e) => DateTime.parse(e.toString())).toList();
     return NotificationData(
-        setDateTime: DateTime.parse(json["setDateTime"].toString()),
-        //limitDateTime: DateTime.parse(json["limitDateTime"].toString()),
+        createDateTime: DateTime.parse(json["setDateTime"].toString()),
+        limitDateTime: DateTime.now().add(Duration(
+            days: 20)), //DateTime.parse(json["limitDateTime"].toString()),
         content: json["content"] as String,
         //description: json["description"] as String,
         remindList: dl,
@@ -66,7 +67,12 @@ class NotificationData {
         '■saveIntoDatabase StatusCode:${response.statusCode.toString()}');
     debugPrint("savedata:" + toJsonString());
     if (response.statusCode == 500) return '';
+    debugPrint('response.body' + response.body);
     return response.body;
+  }
+
+  static Future<void> deleteNotion(int id) async {
+    await http.delete(Uri.parse('http://127.0.0.1:5000/notion/$id'));
   }
 
   void print() {
@@ -84,14 +90,17 @@ class Schedule {
     var response = await http.get(notionUri, headers: notionHeader);
     debugPrint('■getFromDatabase StatusCode:${response.statusCode.toString()}');
     if (response.statusCode != 200) return;
-    debugPrint(response.body);
-    if (response.body.length < 10) return;
+    //debugPrint(response.body);
+    if (response.body.length < 10) {
+      list = [];
+      return;
+    }
     String short = response.body.substring(7, response.body.length - 4);
     List<String> jlist =
         short.split(RegExp(r'},\s+{')).map((e) => '{$e}').toList();
     debugPrint(jlist.toString());
     list = jlist.map((e) => NotificationData.fromJsonString(e)).toList();
-    print();
+    //print();
   }
 
   void print() {
