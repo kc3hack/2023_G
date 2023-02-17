@@ -47,6 +47,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   
+  image_picker: ^0.8.6+1 # カメラと画像選択
+  
   http: ^0.13.5 # flaskのAPIの通信用
 
 # For information on the generic Dart part of this file, see the
