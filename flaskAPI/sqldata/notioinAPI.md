@@ -12,7 +12,7 @@ kc3hack2023においてチームGの作成物であり，**本イベント用の
 | --- | --- |
 | 通知の設定 | 通知一覧の取得 |
 
-ホスト/パスー> <p>"http://localhost/5000/notion"</p>
+ホスト/パスー> "http://localhost/5000/notion"
 
 * `EditNotion`クラス<br>
      * delete :通知の削除を行う．パスから通知のidを指定して特定の通知を消去する．<br>
@@ -21,7 +21,7 @@ kc3hack2023においてチームGの作成物であり，**本イベント用の
 | --- |
 | 通知の削除 |
 
-ホスト/パスー> <p>"http://localhost/5000/notion/{id}"</p>
+ホスト/パスー> "http://localhost/5000/notion/{id}"
 
 * `ReceiveBase64`クラス<br>
      * post :OCRに使う画像データの受け取りをします．responseは通知内容と読み取った日時をJson形式で返す．詳しくは<a href=https://hackmd.io/2KeBMmdaR-iXKwfRKKuCbQ>本持さんのまとめたやつ</a><br>
@@ -30,11 +30,11 @@ kc3hack2023においてチームGの作成物であり，**本イベント用の
 | --- |
 | OCR読み取り |
 
-ホスト/パスー> <p>"http://localhost/5000/notion/ocr"</p>
+ホスト/パスー> "http://localhost/5000/notion/ocr"
 
 
 ### テーブル設計について
-今回は一個だけのテーブルnotionを実装している（init.py）
+今回は一個だけのテーブルnotionを実装している（init.py）<br>
 `notion`
 
 | カラム名 | 制約・備考 | 型 |
