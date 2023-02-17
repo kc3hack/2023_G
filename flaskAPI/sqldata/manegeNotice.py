@@ -79,17 +79,18 @@ class EditNotion(Resource):
 class ReceiveBase64(Resource):
 # OCR用の画像データ取得をする
     def post(self):
-        # どんな感じで来るかわからんからとりあえずJson形式で受け取る？
-        base64data = request.json
-
-        response ={}#仮置き
-        """ここにOCRの操作が来る
-        読み取ったデータは以下の形になる
-        response = {
-            'contet':'',
-            'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
-        }
+        input = request.json
+        base64data = input['base64Image']#ここにbase64のデータが入ってます．
+        
         """
+        ここにOCRの操作が来る
+        読み取ったデータは以下の形になる
+        """
+        response = {
+            # 'contet':'通知タイトル',
+            # 'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
+            'test':'aaaaaaaaaaa'
+        }
 
         return response
 

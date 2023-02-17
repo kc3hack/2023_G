@@ -19,7 +19,7 @@ Session(app)
 api.add_resource(HelloWorld, '/')#接続テスト用のやつ
 api.add_resource(Notion, '/notion')#通知を表示・追加
 api.add_resource(EditNotion, '/notion/<int:id>')#通知データをIDを指定して削除
-api.add_resource(ReceiveBase64, 'notion/ocr')#OCR用画像データ受け取り
+api.add_resource(ReceiveBase64, '/notion/ocr')#OCR用画像データ受け取り
 
 # エラーハンドラー
 @app.errorhandler(404)
