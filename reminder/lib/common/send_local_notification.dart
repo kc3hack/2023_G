@@ -52,7 +52,7 @@ class LocalNotifications {
   }
 
   // 初期化メソッド
-  Future<void> Initialization(String iconPath) async {
+  Future<void> initialization(String iconPath) async {
     if (flutterLocalNotificationsPlugin != null) {
       // 初期化済みの場合キャンセルされる。
       return;
@@ -105,7 +105,7 @@ class LocalNotifications {
   }
 
   // 通知送信メソッド
-  Future<bool> SendLocalNotification(
+  Future<bool> sendLocalNotification(
       String title, // 通知タイトル
       String body, // 通知内容
       DateTime dayTime, // 通知送信時刻
@@ -128,7 +128,7 @@ class LocalNotifications {
     // タイムゾーン初期化
     initTimeZone();
     // 通知設定初期化
-    Initialization(iconPath);
+    initialization(iconPath);
 
     try {
       // 通知予約時間設定
