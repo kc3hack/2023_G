@@ -79,7 +79,7 @@ class _ListPageState extends State<ListPage> {
       schedule.print();
       isPhone = (Theme.of(context).platform == TargetPlatform.iOS) ||
           (Theme.of(context).platform == TargetPlatform.android);
-      LocalNotifications.initialization('');
+      LocalNotifications.initialization();
     });
   }
 
@@ -175,40 +175,44 @@ class _ListPageState extends State<ListPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          schedule.list[index].content,
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(schedule.list[index].description),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '${NotificationData.dateTimeToString(schedule.list[index].limitDateTime)}',
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black87),
-                                              ),
-                                              const SizedBox(width: 15),
-                                              Text(lastDuration(schedule
-                                                  .list[index].limitDateTime
-                                                  .difference(DateTime.now())))
-                                            ])
-                                      ],
-                                    ),
+                                    SizedBox(
+                                        width: windowSize.width * 0.7,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              schedule.list[index].content,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(schedule
+                                                .list[index].description),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${NotificationData.dateTimeToString(schedule.list[index].limitDateTime)}',
+                                                    style: const TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.black87),
+                                                  ),
+                                                  const SizedBox(width: 15),
+                                                  Text(lastDuration(schedule
+                                                      .list[index].limitDateTime
+                                                      .difference(
+                                                          DateTime.now())))
+                                                ])
+                                          ],
+                                        )),
                                     //削除ボタン
                                     enableDeleteButton
                                         ? IconButton(

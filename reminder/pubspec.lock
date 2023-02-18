@@ -153,7 +153,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
@@ -169,7 +169,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       sha256: f98d76672d309c8b7030c323b3394669e122d52b307d2bbd8d06bd70f5b2aabe
@@ -342,7 +342,7 @@ packages:
     source: hosted
     version: "0.4.16"
   timezone:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: timezone
       sha256: "24c8fcdd49a805d95777a39064862133ff816ebfffe0ceff110fb5960e557964"

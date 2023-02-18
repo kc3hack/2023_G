@@ -53,17 +53,20 @@ class LocalNotifications {
   }
 
   // 初期化メソッド
-  static Future<void> initialization(String iconPath) async {
+  static Future<void> initialization() async {
     if (flutterLocalNotificationsPlugin != null) {
       // 初期化済みの場合キャンセルされる。
       return;
     }
-    final String iconImage = iconPath;
+    const String iconImage = "@mipmap/ic_launcher";
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var resultAndroid = await flutterLocalNotificationsPlugin!
+    var resolveAndroid = await flutterLocalNotificationsPlugin!
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()!
-        .requestPermission();
+            AndroidFlutterLocalNotificationsPlugin>();
+    bool? resultAndroid;
+    if (resolveAndroid != null) {
+      resultAndroid = await resolveAndroid.requestPermission();
+    }
     var resultIOS = await flutterLocalNotificationsPlugin!
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -78,24 +81,25 @@ class LocalNotifications {
     await initTimeZone();
     // 初期化処理設定
     // Android
-    final AndroidInitializationSettings androidInitializationSettings =
+    const AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings(iconImage);
     // iOS
-    final DarwinInitializationSettings darwinInitializationSettings =
+    const DarwinInitializationSettings darwinInitializationSettings =
         DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
     // 初期化設定インスタンス
-    InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
       android: androidInitializationSettings,
       iOS: darwinInitializationSettings,
       //macOS: darwinInitializationSettings,
     );
     // Pluginインスタンス生成
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     // 初期化処理実行
     await flutterLocalNotificationsPlugin!.initialize(
       initializationSettings,
@@ -107,21 +111,16 @@ class LocalNotifications {
 
   // 通知送信メソッド
   static Future<bool> sendLocalNotification(
-      String title, // 通知タイトル
-      String body, // 通知内容
-      DateTime dayTime, // 通知送信時刻
-      int id,
-      [String? iconPath] // 通知アイコンパス
-      ) async {
+    String title, // 通知タイトル
+    String body, // 通知内容
+    DateTime dayTime, // 通知送信時刻
+    int id,
+  ) async {
     // 各種変数
     String channelID = "LocalNotification_$id";
     String channelName = "SpecifiedNotification";
     String icon = "@drawable/favicon"; // App Icon
     bool flag = false; // 通知送信可否
-
-    if (iconPath == null) {
-      iconPath = '@mipmap-xxxhdpi/ic_launcher';
-    }
 
     if (flutterLocalNotificationsPlugin == null) {
       return flag;
@@ -130,7 +129,7 @@ class LocalNotifications {
     // タイムゾーン初期化
     initTimeZone();
     // 通知設定初期化
-    initialization(iconPath);
+    initialization();
 
     try {
       // 通知予約時間設定
@@ -167,7 +166,7 @@ class LocalNotifications {
           .show(0, title, body, notificationDetails, payload: 'item x');*/
       flag = true;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
     return flag;
   }

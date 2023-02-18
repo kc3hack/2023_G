@@ -36,6 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_local_notifications: ^13.0.0
+  timezone: ^0.9.1
+  image_picker: ^0.8.6+1 # カメラと画像選択
+  http: ^0.13.5 # flaskのAPIの通信用
 
 dev_dependencies:
   flutter_test:
@@ -48,9 +51,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   
-  image_picker: ^0.8.6+1 # カメラと画像選択
-  
-  http: ^0.13.5 # flaskのAPIの通信用
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

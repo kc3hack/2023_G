@@ -9,7 +9,7 @@ import 'package:reminder/flutter_data.dart';
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
-  final String title = 'Camera Page';
+  final String title = '予定作成 (OCR)';
 
   @override
   State<CameraPage> createState() => _CameraPageState();

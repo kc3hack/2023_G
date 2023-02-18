@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.reminder">
+    <!--以下2行は通知用 https://take424.dev/2021/05/22/flutterでローカル通知の動作を確認する／flutter_local_notifications/ -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
    <application
         android:label="reminder"
         android:name="${applicationName}"
@@ -7,6 +10,18 @@
         android:requestLegacyExternalStorage="true">
         <!-- android:requestLegacyExternalStorage="true"
             はカメラライブラリのために追加。cf: https://qiita.com/konatsu_p/items/eb0e8a7ab62ab9d31315 -->
+        <!--以下11行（activity前まで）は通知用 https://take424.dev/2021/05/22/flutterでローカル通知の動作を確認する／flutter_local_notifications/ -->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <!-- 2021.05.27 再起動時のローカル通知継続用設定を追加 -->
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <!-- 2021.05.27 -->
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" /> 
         <activity
             android:name=".MainActivity"
             android:exported="true"

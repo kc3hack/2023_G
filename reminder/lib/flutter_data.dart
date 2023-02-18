@@ -91,7 +91,7 @@ class NotificationData {
     if (isPhone) {
       for (int i = 0; i < remindList.length; i++) {
         LocalNotifications.sendLocalNotification(
-            content, description, remindList[i], id, null);
+            content, description, remindList[i], id);
       }
     }
     return true;
