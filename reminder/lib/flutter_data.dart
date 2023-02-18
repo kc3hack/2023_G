@@ -4,8 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'send_local_notification.dart';
+
 final notionUri = Uri.parse('http://127.0.0.1:5000/notion');
 final notionHeader = {'content-type': 'application/json'};
+
+var localNotifications = LocalNotifications();
 
 class NotificationData {
   late DateTime createDateTime; //作成した日時
@@ -84,6 +88,10 @@ class NotificationData {
     remindList.add(limitDateTime);
     //Todo:通知をOSに登録
 
+    for (int i = 0; i < remindList.length; i++) {
+      localNotifications.sendLocalNotification(
+          content, description, remindList[i], id, null);
+    }
     return true;
   }
 
@@ -102,6 +110,7 @@ class NotificationData {
   static Future<void> deleteNotion(int id) async {
     await http.delete(Uri.parse('http://127.0.0.1:5000/notion/$id'));
     //Todo:OSの通知解除
+    await localNotifications.cancelId(id);
   }
 
   void print() {

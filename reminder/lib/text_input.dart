@@ -238,9 +238,8 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               height: windowSize.height * 0.8,
-              width: windowSize.width * 0.9,
               child: Column(
                 //columnの中のchildrenの並び方はここで設定できる.
                 mainAxisAlignment:
@@ -406,62 +405,68 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                   ),
 
                   //フレームとラベルがある
-                  TextFormField(
-                    onChanged: (value) {
-                      inputContent = value;
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          color: Colors.green,
-                          width: 2.0,
-                        ),
-                      ),
-                      labelStyle: const TextStyle(
-                        fontSize: 30,
-                        color: Colors.green,
-                      ),
+                  SizedBox(
+                      width: windowSize.width * 0.9,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          inputContent = value;
+                        },
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Colors.green,
+                              width: 2.0,
+                            ),
+                          ),
+                          labelStyle: const TextStyle(
+                            fontSize: 30,
+                            color: Colors.green,
+                          ),
 
-                      labelText: 'ここに予定タイトルを入力してください。', //ラベルの文字列
-                      floatingLabelStyle:
-                          const TextStyle(fontSize: 15), //ラベルの文字の大きさ
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          //入力前の枠
-                          color: Colors.green,
-                          width: 1.0,
+                          labelText: 'ここに予定タイトルを入力してください。', //ラベルの文字列
+                          floatingLabelStyle:
+                              const TextStyle(fontSize: 15), //ラベルの文字の大きさ
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              //入力前の枠
+                              color: Colors.green,
+                              width: 1.0,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      inputDescription = value;
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          color: Colors.green,
-                          width: 2.0,
-                        ),
-                      ),
-                      labelStyle: const TextStyle(
-                        fontSize: 30,
-                        color: Colors.green,
-                      ),
+                      )),
 
-                      labelText: 'ここに詳細を入力してください。', //ラベルの文字列
-                      floatingLabelStyle:
-                          const TextStyle(fontSize: 15), //ラベルの文字の大きさ
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          //入力前の枠
+                  SizedBox(
+                    width: windowSize.width * 0.9,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        inputDescription = value;
+                      },
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(
+                            color: Colors.green,
+                            width: 2.0,
+                          ),
+                        ),
+                        labelStyle: const TextStyle(
+                          fontSize: 30,
                           color: Colors.green,
-                          width: 1.0,
+                        ),
+
+                        labelText: 'ここに詳細を入力してください。', //ラベルの文字列
+                        floatingLabelStyle:
+                            const TextStyle(fontSize: 15), //ラベルの文字の大きさ
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(
+                            //入力前の枠
+                            color: Colors.green,
+                            width: 1.0,
+                          ),
                         ),
                       ),
                     ),

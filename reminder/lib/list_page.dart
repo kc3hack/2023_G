@@ -52,7 +52,7 @@ class _ListPageState extends State<ListPage> {
       return PulldownBTNPage();
     }));
     //テスト用
-    await rndnd().saveIntoDatabase();
+    //await rndnd().saveIntoDatabase();
     reload();
   }
 
