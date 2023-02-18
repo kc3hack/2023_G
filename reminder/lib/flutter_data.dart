@@ -13,15 +13,16 @@ class NotificationData {
   late String content; //通知のタイトル
   //late String description; //詳細
   late int channelId; //通知チャンネルID
-  late List<DateTime> remindList;
+  //late List<DateTime> remindList;
 
-  NotificationData(
-      {required this.createDateTime,
-      required this.limitDateTime,
-      required this.content,
-      required this.remindList,
-      //required this.description,
-      required this.channelId});
+  NotificationData({
+    required this.createDateTime,
+    required this.limitDateTime,
+    required this.content,
+    //required this.remindList,
+    //required this.description,
+    //required this.channelId
+  });
 
   static dateTimeToString(DateTime dt) {
     String zp(int n) {
@@ -33,12 +34,12 @@ class NotificationData {
 
   Map<String, dynamic> toMap() {
     return {
-      "setDateTime": dateTimeToString(createDateTime),
+      "createDateTime": dateTimeToString(createDateTime),
       "limitDateTime": dateTimeToString(limitDateTime),
       "content": content,
-      "remindList": remindList.map((e) => dateTimeToString(e)).toList(),
+      //"remindList": remindList.map((e) => dateTimeToString(e)).toList(),
       //"description": description,
-      "channelId": channelId.toString(),
+      //"channelId": channelId.toString(),
     };
   }
 
@@ -48,27 +49,27 @@ class NotificationData {
 
   static NotificationData fromJsonString(String jstr) {
     final json = jsonDecode(jstr);
-    List<dynamic> sl = json["remindList"];
-    List<DateTime> dl = sl.map((e) => DateTime.parse(e.toString())).toList();
+    //List<dynamic> sl = json["remindList"];
+    //List<DateTime> dl = sl.map((e) => DateTime.parse(e.toString())).toList();
     return NotificationData(
-        createDateTime: DateTime.parse(json["setDateTime"].toString()),
-        limitDateTime: DateTime.now().add(Duration(
-            days: 20)), //DateTime.parse(json["limitDateTime"].toString()),
-        content: json["content"] as String,
-        //description: json["description"] as String,
-        remindList: dl,
-        channelId: json["channelId"] as int);
+      createDateTime: DateTime.parse(json["createDateTime"].toString()),
+      limitDateTime: DateTime.parse(json["limitDateTime"].toString()),
+      content: json["content"] as String,
+      //description: json["description"] as String,
+      //remindList: dl,
+      //channelId: json["channelId"] as int
+    );
   }
 
-  Future<String> saveIntoDatabase() async {
+  Future<int?> saveIntoDatabase() async {
     var response =
         await http.post(notionUri, headers: notionHeader, body: toJsonString());
     debugPrint(
         '■saveIntoDatabase StatusCode:${response.statusCode.toString()}');
     debugPrint("savedata:" + toJsonString());
-    if (response.statusCode == 500) return '';
-    debugPrint('response.body' + response.body);
-    return response.body;
+    if (response.statusCode == 500) return null;
+    debugPrint('response.body:' + response.body);
+    return jsonDecode(response.body)["id"] as int;
   }
 
   static Future<void> deleteNotion(int id) async {

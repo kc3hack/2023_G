@@ -56,7 +56,7 @@ class Notion(Resource):
         # data.description= input['description']
         now = datetime.now(JST)
         try:
-            data.effectiveDate = datetime.strptime(input['setDateTime'], '%Y-%m-%d %H:%M:%S')
+            data.effectiveDate = datetime.strptime(input['createDateTime'], '%Y-%m-%d %H:%M:%S')
         except ValueError:
             return {'message':'invalid date or time'}
         session.add(instance=data)

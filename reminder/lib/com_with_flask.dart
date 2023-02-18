@@ -20,12 +20,13 @@ class _ComTestPageState extends State<ComTestPage> {
   String infoText = '';
 
   var n = NotificationData(
-      createDateTime: DateTime.now(),
-      limitDateTime: DateTime.now().add(const Duration(days: 10)),
-      content: "test",
-      // description: "desc",
-      remindList: [DateTime(2023, 2, 15), DateTime(2023, 2, 22)],
-      channelId: 123);
+    createDateTime: DateTime.now(),
+    limitDateTime: DateTime.now().add(const Duration(days: 10)),
+    content: "test",
+    // description: "desc",
+    //remindList: [DateTime(2023, 2, 15), DateTime(2023, 2, 22)],
+    //channelId: 123
+  );
 
   @override
   Widget build(BuildContext context) {

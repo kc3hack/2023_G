@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as io;
@@ -29,18 +31,23 @@ class _ListPageState extends State<ListPage> {
       const ButtonStyle(fixedSize: MaterialStatePropertyAll(Size(50, 40)));
 
   //テスト用通知データ
-  var n = NotificationData(
-      createDateTime: DateTime.now().add(const Duration(days: 1)),
-      limitDateTime: DateTime.now().add(const Duration(days: 20)),
+  NotificationData rndnd() {
+    return NotificationData(
+      createDateTime:
+          DateTime.now().add(Duration(days: Random().nextInt(9) + 1)),
+      limitDateTime:
+          DateTime.now().add(Duration(days: Random().nextInt(30) + 10)),
       content: "test",
       // description: "desc",
-      remindList: [DateTime(2023, 2, 20), DateTime(2023, 2, 25)],
-      channelId: 123);
+      //remindList: [DateTime(2023, 2, 20), DateTime(2023, 2, 25)],
+      //channelId: 123
+    );
+  }
 
   void addSchedule() async {
     //Todo:予定追加画面に遷移する
     //現在テスト用
-    await n.saveIntoDatabase();
+    await (rndnd().saveIntoDatabase());
     reload();
   }
 
