@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:reminder/camerapage.dart';
 //import 'package:alert_app_test1/study.dart'; //勉強したときの関数を別クラスから呼ぶ。
@@ -96,9 +98,17 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
   }
 
   Future<void> useOcr() async {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+    final jstr =
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return const CameraPage();
-    }));
+    })) as String?;
+    if (jstr == null) return;
+    inputContent = jsonDecode(jstr)["content"];
+    DateTime dt = jsonDecode(jstr)["limitDateTime"];
+    yearValue = dt.year;
+    monthValue = dt.month;
+    dayValue = dt.day;
+    hourValue = dt.hour;
   }
 
   @override
@@ -408,6 +418,7 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                   SizedBox(
                       width: windowSize.width * 0.9,
                       child: TextFormField(
+                        style: const TextStyle(fontSize: 25),
                         onChanged: (value) {
                           inputContent = value;
                         },
@@ -420,13 +431,13 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                             ),
                           ),
                           labelStyle: const TextStyle(
-                            fontSize: 30,
+                            fontSize: 20,
                             color: Colors.green,
                           ),
 
                           labelText: 'ここに予定タイトルを入力してください。', //ラベルの文字列
                           floatingLabelStyle:
-                              const TextStyle(fontSize: 15), //ラベルの文字の大きさ
+                              const TextStyle(fontSize: 20), //ラベルの文字の大きさ
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(
@@ -441,6 +452,7 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                   SizedBox(
                     width: windowSize.width * 0.9,
                     child: TextFormField(
+                      style: const TextStyle(fontSize: 25),
                       onChanged: (value) {
                         inputDescription = value;
                       },
@@ -453,13 +465,13 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                           ),
                         ),
                         labelStyle: const TextStyle(
-                          fontSize: 30,
+                          fontSize: 20,
                           color: Colors.green,
                         ),
 
-                        labelText: 'ここに詳細を入力してください。', //ラベルの文字列
+                        labelText: 'ここに詳細を入力してください。(任意)', //ラベルの文字列
                         floatingLabelStyle:
-                            const TextStyle(fontSize: 15), //ラベルの文字の大きさ
+                            const TextStyle(fontSize: 20), //ラベルの文字の大きさ
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: const BorderSide(
@@ -472,7 +484,7 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                     ),
                   ),
 
-                  TextButton(
+                  ElevatedButton(
                       onPressed: () async {
                         final completed = await NotificationData(
                                 content: inputContent,
@@ -495,15 +507,25 @@ class _PulldownBTNPageState extends State<PulldownBTNPage> {
                         }
                         setState(() {});
                       },
+                      style: const ButtonStyle(
+                          fixedSize: MaterialStatePropertyAll(Size(100, 50))),
                       child: const Text(
                         '作成',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 25,
                         ),
                       )),
 
-                  TextButton(
-                      onPressed: useOcr, child: const Text('画像から読み取って作成')),
+                  ElevatedButton(
+                      onPressed: useOcr,
+                      style: const ButtonStyle(
+                          fixedSize: MaterialStatePropertyAll(Size(240, 70))),
+                      child: const Text(
+                        'カメラまたは画像から\n読み取って作成',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )),
                   Text(
                     infoText,
                     style: TextStyle(color: infoTextColor, fontSize: 20),

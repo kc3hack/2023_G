@@ -9,10 +9,10 @@ class LocalNotifications {
 
   // 通知タップ時起爆メソッド
   @pragma('vm:entry-point')
-  void notificationTap(NotificationResponse notificationResponse) {}
+  static void notificationTap(NotificationResponse notificationResponse) {}
 
   // タイムゾーン初期化メソッド
-  Future<void> initTimeZone() async {
+  static Future<void> initTimeZone() async {
     tz.initializeTimeZones();
     var jp = tz.getLocation('Asia/Tokyo');
     tz.setLocalLocation(jp);
@@ -41,10 +41,10 @@ class LocalNotifications {
   }
 */
   // なんのためのメソッドかよくわからない三銃士
-  Future<void> onSelectNotification(String? payload) async {}
-  Future<void> onDidReceiveLocalNotification(
+  static Future<void> onSelectNotification(String? payload) async {}
+  static Future<void> onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) async {}
-  void onDidReceiveNotificationResponse(
+  static void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
     if (notificationResponse.payload != null) {
@@ -53,7 +53,7 @@ class LocalNotifications {
   }
 
   // 初期化メソッド
-  Future<void> initialization(String iconPath) async {
+  static Future<void> initialization(String iconPath) async {
     if (flutterLocalNotificationsPlugin != null) {
       // 初期化済みの場合キャンセルされる。
       return;
@@ -106,12 +106,12 @@ class LocalNotifications {
   }
 
   // 通知送信メソッド
-  Future<bool> sendLocalNotification(
+  static Future<bool> sendLocalNotification(
       String title, // 通知タイトル
       String body, // 通知内容
       DateTime dayTime, // 通知送信時刻
       int id,
-      String? iconPath // 通知アイコンパス
+      [String? iconPath] // 通知アイコンパス
       ) async {
     // 各種変数
     String channelID = "LocalNotification_$id";
@@ -172,7 +172,7 @@ class LocalNotifications {
     return flag;
   }
 
-  Future<void> cancelId(int id) async {
+  static Future<void> cancelId(int id) async {
     await flutterLocalNotificationsPlugin!.cancel(id);
   }
 }

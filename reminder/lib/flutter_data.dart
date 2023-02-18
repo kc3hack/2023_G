@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:reminder/list_page.dart';
 
 import 'send_local_notification.dart';
 
@@ -86,11 +87,12 @@ class NotificationData {
     }
     remindList.add(limitDateTime.subtract(const Duration(days: 1)));
     remindList.add(limitDateTime);
-    //Todo:通知をOSに登録
-
-    for (int i = 0; i < remindList.length; i++) {
-      localNotifications.sendLocalNotification(
-          content, description, remindList[i], id, null);
+    //通知をOSに登録
+    if (isPhone) {
+      for (int i = 0; i < remindList.length; i++) {
+        LocalNotifications.sendLocalNotification(
+            content, description, remindList[i], id, null);
+      }
     }
     return true;
   }
@@ -110,7 +112,7 @@ class NotificationData {
   static Future<void> deleteNotion(int id) async {
     await http.delete(Uri.parse('http://127.0.0.1:5000/notion/$id'));
     //Todo:OSの通知解除
-    await localNotifications.cancelId(id);
+    if (isPhone) await LocalNotifications.cancelId(id);
   }
 
   void print() {
@@ -155,7 +157,7 @@ class Schedule {
     debugPrint(jlist.toString());
     list = jlist.map((e) => NotificationData.fromJsonString(e)).toList();
     */
-    //print();
+    print();
   }
 
   void print() {
@@ -165,14 +167,15 @@ class Schedule {
 }
 
 //画像送信部分（仮）
-Future<void> postImage(File imageFile) async {
+Future<String?> doOcr(File imageFile) async {
   String base64Image = base64Encode(imageFile.readAsBytesSync());
   String jsonBody = jsonEncode({"image": base64Image});
   final response =
       await http.post(Uri.parse("http://127.0.0.1:5000/ocr"), body: jsonBody);
-  debugPrint('■postImage StatusCode:' + response.statusCode.toString());
-  if (response.statusCode != 200) return;
+  debugPrint('■ocr StatusCode:' + response.statusCode.toString());
+  if (response.statusCode != 200) return null;
   debugPrint(response.body);
+  return response.body;
 }
 
 //以下テスト用

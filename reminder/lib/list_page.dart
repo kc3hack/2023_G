@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reminder/send_local_notification.dart';
 import 'package:reminder/text_input.dart';
 import 'dart:io' as io;
 
@@ -28,6 +29,8 @@ final footer = Container(
     )));
 
 late Size windowSize;
+
+late bool isPhone;
 
 class _ListPageState extends State<ListPage> {
   final buttonStyle =
@@ -74,6 +77,9 @@ class _ListPageState extends State<ListPage> {
     Future(() async {
       await reload();
       schedule.print();
+      isPhone = (Theme.of(context).platform == TargetPlatform.iOS) ||
+          (Theme.of(context).platform == TargetPlatform.android);
+      LocalNotifications.initialization('');
     });
   }
 

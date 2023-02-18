@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:reminder/flutter_data.dart';
 
 //参考： https://qiita.com/konatsu_p/items/eb0e8a7ab62ab9d31315
 
@@ -33,12 +34,9 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   //画像から文字を読み取るAPIを使う。名前は要変更
-  void readImage() {
-    //画像を送信に適した形式に変換
-    //APIで送信
-    //読み取った日時と内容を受信
-    //予定追加画面に遷移し、受信した日時と内容で初期化
-    //その後は予定追加画面で修正と追加の確定
+  void readImage() async {
+    final jstr = await doOcr(imageFile!);
+    Navigator.of(context).pop(jstr);
   }
 
   @override
@@ -58,7 +56,10 @@ class _CameraPageState extends State<CameraPage> {
             //画像表示(未選択ではそのように表示)
             imageFile == null
                 ? Column(children: const <Widget>[
-                    Text('カメラで撮影または選択した画像から日付と内容を読み取り、予定に追加します。'),
+                    Text(
+                      'カメラで撮影または選択した画像から日付と内容を読み取り、予定に追加します。',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     SizedBox(
                       height: 50,
                     )
@@ -72,7 +73,10 @@ class _CameraPageState extends State<CameraPage> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    const Text('カメラで撮影'),
+                    const Text(
+                      'カメラで撮影',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     FloatingActionButton(
                       heroTag: 'camera',
                       onPressed: () async {
@@ -89,7 +93,10 @@ class _CameraPageState extends State<CameraPage> {
                 ),
                 Column(
                   children: <Widget>[
-                    const Text('写真を選択'),
+                    const Text(
+                      '写真を選択',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     FloatingActionButton(
                       heroTag: 'picture',
                       onPressed: () async {
