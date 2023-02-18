@@ -52,12 +52,12 @@ class LocalNotifications {
   }
 
   // 初期化メソッド
-  Future<void> initialization(String iconPath) async {
+  Future<void> initialization() async {
     if (flutterLocalNotificationsPlugin != null) {
       // 初期化済みの場合キャンセルされる。
       return;
     }
-    final String iconImage = iconPath;
+    const String iconImage = "@mipmap/ic_launcher";
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var resultAndroid = await flutterLocalNotificationsPlugin!
         .resolvePlatformSpecificImplementation<
@@ -108,18 +108,13 @@ class LocalNotifications {
   Future<bool> sendLocalNotification(
       String title, // 通知タイトル
       String body, // 通知内容
-      DateTime dayTime, // 通知送信時刻
-      String? iconPath // 通知アイコンパス
+      DateTime dayTime // 通知送信時刻
       ) async {
     // 各種変数
     String channelID = "LocalNotification";
     String channelName = "SpecifiedNotification";
     String icon = "@drawable/favicon"; // App Icon
     bool flag = false; // 通知送信可否
-
-    if (iconPath == null) {
-      iconPath = '@mipmap-xxxhdpi/ic_launcher';
-    }
 
     if (flutterLocalNotificationsPlugin == null) {
       return flag;
@@ -128,7 +123,7 @@ class LocalNotifications {
     // タイムゾーン初期化
     initTimeZone();
     // 通知設定初期化
-    initialization(iconPath);
+    initialization();
 
     try {
       // 通知予約時間設定
