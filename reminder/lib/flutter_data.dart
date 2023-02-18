@@ -108,6 +108,16 @@ class NotificationData {
     debugPrint('Notification print');
     debugPrint(toJsonString());
   }
+
+  static NotificationData fromJsonMap(jmap) {
+    return NotificationData(
+        createDateTime: DateTime.parse(jmap["createDateTime"]),
+        limitDateTime: DateTime.parse(jmap["limitDateTime"]),
+        content: jmap["content"] as String,
+        description: jmap["description"] ?? '',
+        //remindList: dl,
+        channelId: jmap["channelId"] as int);
+  }
 }
 
 Schedule schedule = Schedule();
@@ -119,16 +129,23 @@ class Schedule {
     var response = await http.get(notionUri, headers: notionHeader);
     debugPrint('■getFromDatabase StatusCode:${response.statusCode.toString()}');
     if (response.statusCode != 200) return;
-    //debugPrint(response.body);
+    //debugPrint('■' + response.body);
+
+    final List jlist = jsonDecode(response.body);
+    list = jlist.map((e) => NotificationData.fromJsonMap(e)).toList();
+
+    /*
     if (response.body.length < 10) {
       list = [];
       return;
     }
     String short = response.body.substring(7, response.body.length - 4);
+    debugPrint('■' + short);
     List<String> jlist =
         short.split(RegExp(r'},\s+{')).map((e) => '{$e}').toList();
-    //debugPrint(jlist.toString());
+    debugPrint(jlist.toString());
     list = jlist.map((e) => NotificationData.fromJsonString(e)).toList();
+    */
     //print();
   }
 

@@ -144,7 +144,7 @@ class _ListPageState extends State<ListPage> {
               ),
               //一覧表示
               SizedBox(
-                height: windowSize.height - 150,
+                height: windowSize.height - 170,
                 width: windowSize.width * 0.9,
                 child: schedule.list.length == 0
                     ? Column(
