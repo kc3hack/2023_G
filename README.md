@@ -33,25 +33,24 @@
 
 ### 機能紹介
 
-
 ## 使用技術
 
 <!-- 使用技術を入力 -->
 
 《言語》<br>
-dart, python
+dart, python<br>
 <br>
 《OS》<br>
-iOS, android
+iOS, android<br>
 <br>
 《DB》<br>
-sqlite
+sqlite<br>
 <br>
 《フレームワーク》<br>
-flutter, flask(RESTful-API)
+flutter, flask(RESTful-API)<br>
 <br>
 《開発ツール》<br>
-postman, sqlalchemy, tesseract(光学文字認識), asana
+postman, sqlalchemy, tesseract(光学文字認識), asana<br>
 <br>
 <!--
 markdownの記法はこちらを参照してください！
