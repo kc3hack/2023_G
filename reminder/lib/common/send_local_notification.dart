@@ -82,9 +82,9 @@ class LocalNotifications {
     // iOS
     final DarwinInitializationSettings darwinInitializationSettings =
         DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
     // 初期化設定インスタンス
