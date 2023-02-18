@@ -53,10 +53,10 @@ class Notion(Resource):
         # データ入れる
         data = notion()
         data.notion = input['content']
-        # data.description= input['description']
+        data.description= input['description']
         now = datetime.now(JST)
         try:
-            data.effectiveDate = datetime.strptime(input['createDateTime'], '%Y-%m-%d %H:%M:%S')
+            data.effectiveDate = datetime.strptime(input['limitDateTime'], '%Y-%m-%d %H:%M:%S')
         except ValueError:
             return {'message':'invalid date or time'}
         session.add(instance=data)

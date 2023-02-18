@@ -23,7 +23,7 @@ class _ComTestPageState extends State<ComTestPage> {
     createDateTime: DateTime.now(),
     limitDateTime: DateTime.now().add(const Duration(days: 10)),
     content: "test",
-    // description: "desc",
+    description: "desc",
     //remindList: [DateTime(2023, 2, 15), DateTime(2023, 2, 22)],
     //channelId: 123
   );

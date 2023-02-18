@@ -11,18 +11,19 @@ class NotificationData {
   late DateTime createDateTime; //作成した日時
   late DateTime limitDateTime; //期限
   late String content; //通知のタイトル
-  //late String description; //詳細
-  late int channelId; //通知チャンネルID
+  late String description; //詳細
+  int channelId = 0; //通知チャンネルID
   //late List<DateTime> remindList;
 
-  NotificationData({
-    required this.createDateTime,
-    required this.limitDateTime,
-    required this.content,
-    //required this.remindList,
-    //required this.description,
-    //required this.channelId
-  });
+  NotificationData(
+      {required this.createDateTime,
+      required this.limitDateTime,
+      required this.content,
+      //required this.remindList,
+      required this.description,
+      int? channelId}) {
+    this.channelId = channelId ?? 0;
+  }
 
   static dateTimeToString(DateTime dt) {
     String zp(int n) {
@@ -38,8 +39,8 @@ class NotificationData {
       "limitDateTime": dateTimeToString(limitDateTime),
       "content": content,
       //"remindList": remindList.map((e) => dateTimeToString(e)).toList(),
-      //"description": description,
-      //"channelId": channelId.toString(),
+      "description": description,
+      "channelId": channelId.toString(),
     };
   }
 
@@ -52,28 +53,55 @@ class NotificationData {
     //List<dynamic> sl = json["remindList"];
     //List<DateTime> dl = sl.map((e) => DateTime.parse(e.toString())).toList();
     return NotificationData(
-      createDateTime: DateTime.parse(json["createDateTime"].toString()),
-      limitDateTime: DateTime.parse(json["limitDateTime"].toString()),
-      content: json["content"] as String,
-      //description: json["description"] as String,
-      //remindList: dl,
-      //channelId: json["channelId"] as int
-    );
+        createDateTime: DateTime.parse(json["createDateTime"].toString()),
+        limitDateTime: DateTime.parse(json["limitDateTime"].toString()),
+        content: json["content"] as String,
+        description: json["description"] ?? '',
+        //remindList: dl,
+        channelId: json["channelId"] as int);
   }
 
+  //リマインドのタイミングをここで設定
+  List<Duration> remindTiming = const [
+    Duration(hours: 1),
+    Duration(days: 1),
+    Duration(days: 7),
+    Duration(days: 28)
+  ];
+
+  //成功か否かを返す
+  Future<bool> createNotification() async {
+    final id = await saveIntoDatabase();
+    if (id == null) return false;
+    final List<DateTime> remindList = [];
+    for (int i = 0; i < remindTiming.length; i++) {
+      final nextRemindDateTime = createDateTime.add(remindTiming[i]);
+      if (nextRemindDateTime.isBefore(limitDateTime)) {
+        remindList.add(nextRemindDateTime);
+      }
+    }
+    remindList.add(limitDateTime.subtract(const Duration(days: 1)));
+    remindList.add(limitDateTime);
+    //Todo:通知をOSに登録
+
+    return true;
+  }
+
+  //データベースに登録。idを返却
   Future<int?> saveIntoDatabase() async {
     var response =
         await http.post(notionUri, headers: notionHeader, body: toJsonString());
     debugPrint(
         '■saveIntoDatabase StatusCode:${response.statusCode.toString()}');
     debugPrint("savedata:" + toJsonString());
-    if (response.statusCode == 500) return null;
+    if (response.statusCode != 200) return null;
     debugPrint('response.body:' + response.body);
-    return jsonDecode(response.body)["id"] as int;
+    return jsonDecode(response.body)["id"] as int?;
   }
 
   static Future<void> deleteNotion(int id) async {
     await http.delete(Uri.parse('http://127.0.0.1:5000/notion/$id'));
+    //Todo:OSの通知解除
   }
 
   void print() {
@@ -99,14 +127,14 @@ class Schedule {
     String short = response.body.substring(7, response.body.length - 4);
     List<String> jlist =
         short.split(RegExp(r'},\s+{')).map((e) => '{$e}').toList();
-    debugPrint(jlist.toString());
+    //debugPrint(jlist.toString());
     list = jlist.map((e) => NotificationData.fromJsonString(e)).toList();
     //print();
   }
 
   void print() {
     debugPrint('Schelude print');
-    debugPrint(list.map((e) => e.toJsonString()).toList().toString());
+    debugPrint(list.map((e) => '${e.toJsonString()}\n').toList().toString());
   }
 }
 

@@ -74,6 +74,7 @@ class _CameraPageState extends State<CameraPage> {
                   children: <Widget>[
                     const Text('カメラで撮影'),
                     FloatingActionButton(
+                      heroTag: 'camera',
                       onPressed: () async {
                         await getPictureFromCamera();
                         setState(() {});
@@ -90,6 +91,7 @@ class _CameraPageState extends State<CameraPage> {
                   children: <Widget>[
                     const Text('写真を選択'),
                     FloatingActionButton(
+                      heroTag: 'picture',
                       onPressed: () async {
                         await getPictureFromGallery();
                         setState(() {});
@@ -107,6 +109,7 @@ class _CameraPageState extends State<CameraPage> {
                         children: <Widget>[
                           const Text('キャンセル'),
                           FloatingActionButton(
+                            heroTag: 'cancel',
                             onPressed: () {
                               setState(() {
                                 imageFile = null;
@@ -126,6 +129,7 @@ class _CameraPageState extends State<CameraPage> {
                         children: <Widget>[
                           const Text('読み取り'),
                           FloatingActionButton(
+                            heroTag: 'read',
                             onPressed: () {
                               readImage();
                             },
