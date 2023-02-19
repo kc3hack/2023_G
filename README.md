@@ -13,6 +13,8 @@
 
 <!-- プロダクト名を入力 -->
 
+<p>Lim in->der</p>
+
 
 ## プロダクト説明
 ### プロダクトについて
@@ -32,6 +34,18 @@
 (参考)https://keiei-shinri.or.jp/word/エビングハウスの忘却曲線/
 
 ### 機能紹介
+
+<img src="https://github.com/kc3hack/2023_G/blob/images/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202023-02-18%2019.44.41.png" width=250px>
+
+予定を
+<img src="https://github.com/kc3hack/2023_G/blob/images/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202023-02-18%2019.44.41.png" width=250px>
+
+上のように予定を追加
+
+<img src="https://github.com/kc3hack/2023_G/blob/images/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202023-02-18%2019.45.06.png" width=250px> <img src="https://github.com/kc3hack/2023_G/blob/images/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202023-02-19%2013.38.55.png" width=250px>
+
+予定が追加されたら通知を待つだけ<br>
+画像でも取り込んで予定の設定ができます．
 
 ## 使用技術
 
