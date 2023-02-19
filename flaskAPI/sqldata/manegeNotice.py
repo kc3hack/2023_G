@@ -96,7 +96,7 @@ class ReceiveBase64(Resource):
         
         """
         #以下、テスト用
-        img_path = "memo_kurozi.png"
+        img_path = "sqldata\memo_kurozi2.png"
         with open(img_path, 'rb') as f:
             imgdata = f.read()
 
@@ -111,7 +111,8 @@ class ReceiveBase64(Resource):
         OCR_path=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         yotei_list = ocr_process(OCR_path, img)
         
-        
+        response = {}
+
         #print(yotei_list) 確認用
 
         """
@@ -123,7 +124,8 @@ class ReceiveBase64(Resource):
         if len(yotei_list[0]) == 1:
             response = {
                 'contet':yotei_list[0],
-                'limitDateTime':yotei_list[1].strftime('%Y-%m-%d %H:%M:%S')
+                'description':yotei_list[1],
+                'limitDateTime':yotei_list[2].strftime('%Y-%m-%d %H:%M:%S')
 
                 #'contet':'通知タイトル',
                 #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
@@ -131,10 +133,11 @@ class ReceiveBase64(Resource):
             }
 
         #2のとき、複数のデータが入力されているため、1つ目のデータのみ入力
-        elif len(yotei_list[0]) == 2:
+        elif len(yotei_list[0]) == 3:
             response = {
                 'contet':yotei_list[0][0],
-                'limitDateTime':yotei_list[0][1]
+                'description':yotei_list[0][1],
+                'limitDateTime':yotei_list[0][2].strftime('%Y-%m-%d %H:%M:%S')
 
                 #'contet':'通知タイトル',
                 #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
@@ -143,3 +146,67 @@ class ReceiveBase64(Resource):
 
     
         return response
+
+
+#テスト用のmain関数
+def main():
+    #put = request.json
+
+    #base64data = input['base64Image']#ここにbase64のデータが入ってます．
+    
+    
+    #以下、テスト用
+    img_path = "sqldata\memo_kurozi2.png"
+    with open(img_path, 'rb') as f:
+        imgdata = f.read()
+
+    #Base64で画像をエンコード
+    base64data=base64.b64encode(imgdata)
+    
+
+    #画像をnp配列に変換する。
+    img = Base64ToNdarry(base64data)
+
+    #OCRのPATHを指定してから、光学文字認識をする。
+    OCR_path=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    yotei_list = ocr_process(OCR_path, img)
+    
+    
+    #print(yotei_list) #確認用
+
+    """
+    ここにOCRの操作が来る
+    読み取ったデータは以下の形になる
+    """
+
+    response = {}
+
+    #print(yotei_list[0])
+
+    #要素数が1のとき、1つのデータしか入っていないためそのまま追加
+    if len(yotei_list[0]) == 1:
+        response = {
+            'contet':yotei_list[0],
+            'description':yotei_list[1],
+            'limitDateTime':yotei_list[2].strftime('%Y-%m-%d %H:%M:%S')
+
+            #'contet':'通知タイトル',
+            #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
+            #'test':'aaaaaaaaaaa'
+        }
+
+    #2のとき、複数のデータが入力されているため、1つ目のデータのみ入力
+    elif len(yotei_list[0]) == 3:
+        response = {
+            'contet':yotei_list[0][0],
+            'description':yotei_list[0][1],
+            'limitDateTime':yotei_list[0][2].strftime('%Y-%m-%d %H:%M:%S')
+
+            #'contet':'通知タイトル',
+            #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
+            #'test':'aaaaaaaaaaa'
+        }
+
+    print(response)
+
+#main()

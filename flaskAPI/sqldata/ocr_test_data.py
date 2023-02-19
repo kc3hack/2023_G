@@ -9,6 +9,8 @@ import pyocr
 import cv2
 import datetime
 
+from torch import baddbmm
+
 #環境変数「PATH」にTesseract-OCRのパスを設定。
 #Windowsの環境変数に設定している場合は不要。
 #path='C:\\Program Files\\Tesseract-OCR\\'
@@ -64,8 +66,9 @@ def ocr_process(OCR_path, image_data):
         time = 0
         min = 0
         sec = 0
-
-        content = ''
+        
+        content = 'なし'
+        description = 'なし' 
         baf = ''
 
         for j in range(len(text_rows[i])):
@@ -88,18 +91,25 @@ def ocr_process(OCR_path, image_data):
                 min = int(baf)
                 baf = ''
             elif text_rows[i][j] == '秒' and str.isdigit(baf):
-                min = int(baf)
+                sec = int(baf)
                 baf = ''
-            
+
+            #内容>詳細 のように記述すること。
+            elif text_rows[i][j] == '>':
+                content = baf
+                baf = ''
+                
             else: 
                 baf += text_rows[i][j]
 
-            content = baf
+            description = baf
 
         #リストの中のリスト
         l = []
-        l.append(datetime.datetime(year, month, day, hour=time, minute=min, second=sec))
         l.append(content)
+        l.append(description)
+        l.append(datetime.datetime(year, month, day, hour=time, minute=min, second=sec))
+
 
         yotei_list.append(l)
 
