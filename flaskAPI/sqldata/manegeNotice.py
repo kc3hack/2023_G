@@ -13,7 +13,7 @@ from flask_restful import Resource
 from flask import json, request
 
 #追加
-from img_base64 import base64_to_img
+from img_base64 import base64_to_img, Base64ToNdarry
 from ocr_test_data import ocr_process
 
 
@@ -94,30 +94,33 @@ class ReceiveBase64(Resource):
 
         base64data = input['base64Image']#ここにbase64のデータが入ってます．
         
-
+        """
+        #以下、テスト用
         img_path = "memo_kurozi.png"
         with open(img_path, 'rb') as f:
             imgdata = f.read()
 
         #Base64で画像をエンコード
         base64data=base64.b64encode(imgdata)
-        
+        """
 
-        img = base64_to_img(base64data)
+        #画像をnp配列に変換する。
+        img = Base64ToNdarry(base64data)
 
-
+        #OCRのPATHを指定してから、光学文字認識をする。
         OCR_path=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         yotei_list = ocr_process(OCR_path, img)
         
         
-        #print(yotei_list)
+        #print(yotei_list) 確認用
 
         """
         ここにOCRの操作が来る
         読み取ったデータは以下の形になる
         """
 
-        if len(yotei_list) == 1:
+        #要素数が1のとき、1つのデータしか入っていないためそのまま追加
+        if len(yotei_list[0]) == 1:
             response = {
                 'contet':yotei_list[0],
                 'limitDateTime':yotei_list[1].strftime('%Y-%m-%d %H:%M:%S')
@@ -127,8 +130,8 @@ class ReceiveBase64(Resource):
                 #'test':'aaaaaaaaaaa'
             }
 
-        elif len(yotei_list) > 1:
-
+        #2のとき、複数のデータが入力されているため、1つ目のデータのみ入力
+        elif len(yotei_list[0]) == 2:
             response = {
                 'contet':yotei_list[0][0],
                 'limitDateTime':yotei_list[0][1]
@@ -140,10 +143,3 @@ class ReceiveBase64(Resource):
 
     
         return response
-
-
-    def main():
-        rcvB64 = ReceiveBase64(Resource)
-        rcvB64.post()
-        
-        

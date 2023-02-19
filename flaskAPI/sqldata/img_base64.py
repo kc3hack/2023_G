@@ -12,7 +12,12 @@ import io
 #r"" raw文字列では//や/nがそのまま認識されるため、改行文字などのエスケープ文字にならない。
 
 
+def Base64ToNdarry(img_base64):
+    img_data = base64.b64decode(img_base64)
+    img_np = np.fromstring(img_data, np.uint8)
+    src = cv2.imdecode(img_np, cv2.IMREAD_ANYCOLOR)
 
+    return src
 
 
 def base64_to_img(img_binary, img_path):

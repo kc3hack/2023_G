@@ -103,7 +103,7 @@ def ocr_process(OCR_path, image_data):
 
         yotei_list.append(l)
 
-        print(yotei_list)
+        #print(yotei_list)
 
 
     return yotei_list
