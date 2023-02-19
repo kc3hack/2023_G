@@ -3,8 +3,8 @@ from distutils.log import debug
 from torch import import_ir_module
 #from sqldata.init import notion
 #from sqldata.checkModel import ModelOperate
-from init import notion
-from checkModel import ModelOperate
+from sqldata.init import notion
+from sqldata.checkModel import ModelOperate
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -13,8 +13,10 @@ from flask_restful import Resource
 from flask import json, request
 
 #追加
-from img_base64 import base64_to_img, Base64ToNdarry
-from ocr_test_data import ocr_process
+from sqldata.img_base64 import base64_to_img, Base64ToNdarry
+from sqldata.ocr_test_data import ocr_process
+
+import logging
 
 
 JST = timezone(timedelta(hours=+9), 'JST')
@@ -108,11 +110,12 @@ class ReceiveBase64(Resource):
         img = Base64ToNdarry(base64data)
 
         #OCRのPATHを指定してから、光学文字認識をする。
-        OCR_path=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        OCR_path=r'opt/homebrew/Cellar/tesseract/5.3.0'
         yotei_list = ocr_process(OCR_path, img)
         
-        
-        #print(yotei_list) 確認用
+        with open("debug.txt" ,'w') as f:
+            f.write(yotei_list) 
+
 
         """
         ここにOCRの操作が来る
@@ -120,10 +123,10 @@ class ReceiveBase64(Resource):
         """
 
         #要素数が1のとき、1つのデータしか入っていないためそのまま追加
-        if len(yotei_list[0]) == 1:
+        if len(yotei_list) == 1:
             response = {
-                'contet':yotei_list[0],
-                'limitDateTime':yotei_list[1].strftime('%Y-%m-%d %H:%M:%S')
+                'content':str(yotei_list[0][1]),
+                'limitDateTime':yotei_list[0][0].strftime('%Y-%m-%d %H:%M:%S')
 
                 #'contet':'通知タイトル',
                 #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
@@ -131,15 +134,15 @@ class ReceiveBase64(Resource):
             }
 
         #2のとき、複数のデータが入力されているため、1つ目のデータのみ入力
-        elif len(yotei_list[0]) == 2:
-            response = {
-                'contet':yotei_list[0][0],
-                'limitDateTime':yotei_list[0][1]
+        # elif len(yotei_list[0]) == 2:
+        #     response = {
+        #         'contet':yotei_list[0][0],
+        #         'limitDateTime':yotei_list[0][1]
 
-                #'contet':'通知タイトル',
-                #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
-                #'test':'aaaaaaaaaaa'
-            }
+        #         #'contet':'通知タイトル',
+        #         #'limitDateTime':DATETIME.strftime('%Y-%m-%d %H:%M:%S')
+        #         #'test':'aaaaaaaaaaa'
+        #     }
 
     
         return response

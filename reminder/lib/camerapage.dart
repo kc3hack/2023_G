@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reminder/flutter_data.dart';
+import 'package:reminder/list_page.dart';
 
 //参考： https://qiita.com/konatsu_p/items/eb0e8a7ab62ab9d31315
 
@@ -16,7 +17,7 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  final picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
   File? imageFile;
 
   //カメラを起動して画像を取得
@@ -45,9 +46,9 @@ class _CameraPageState extends State<CameraPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
+      body:Stack(children: [ Container(
         padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-        child: Column(
+        child:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('OCR 予定作成',
@@ -107,14 +108,15 @@ class _CameraPageState extends State<CameraPage> {
                       child: const Icon(Icons.photo),
                     ),
                   ],
-                ),
-                SizedBox(
-                  width: imageFile == null ? 0 : 20,
-                ),
+                )],),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:[
                 imageFile != null
                     ? Column(
                         children: <Widget>[
-                          const Text('キャンセル'),
+                          const Text('キャンセル',style: TextStyle(fontSize: 20),),
                           FloatingActionButton(
                             heroTag: 'cancel',
                             onPressed: () {
@@ -134,7 +136,7 @@ class _CameraPageState extends State<CameraPage> {
                 imageFile != null
                     ? Column(
                         children: <Widget>[
-                          const Text('読み取り'),
+                          const Text('読み取り',style: TextStyle(fontSize: 20),),
                           FloatingActionButton(
                             heroTag: 'read',
                             onPressed: () {
@@ -148,9 +150,13 @@ class _CameraPageState extends State<CameraPage> {
                     : const SizedBox(),
               ],
             ),
+
           ],
         ),
-      ),
+        ),
+        Column(mainAxisAlignment: MainAxisAlignment.end,
+          children: [footer],)
+      ]),
     );
   }
 }

@@ -95,7 +95,7 @@ class LocalNotifications {
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: androidInitializationSettings,
-      iOS: darwinInitializationSettings,
+      iOS: DarwinInitializationSettings(),
       //macOS: darwinInitializationSettings,
     );
     // Pluginインスタンス生成
@@ -157,7 +157,7 @@ class LocalNotifications {
       );
       // 通知予約送信
       await flutterLocalNotificationsPlugin!.zonedSchedule(
-          1, title, body, scheduledDate, notificationDetails,
+          id, title, body, scheduledDate, notificationDetails,
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);

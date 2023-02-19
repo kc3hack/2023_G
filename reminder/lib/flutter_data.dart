@@ -170,8 +170,9 @@ class Schedule {
 Future<String?> doOcr(File imageFile) async {
   String base64Image = base64Encode(imageFile.readAsBytesSync());
   String jsonBody = jsonEncode({"image": base64Image});
+  debugPrint(jsonBody);
   final response =
-      await http.post(Uri.parse("http://127.0.0.1:5000/ocr"), body: jsonBody);
+      await http.post(Uri.parse("http://127.0.0.1:5000/notioin/ocr"), body: jsonBody);
   debugPrint('■ocr StatusCode:' + response.statusCode.toString());
   if (response.statusCode != 200) return null;
   debugPrint(response.body);
